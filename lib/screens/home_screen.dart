@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../config.dart';
 import '../l10n.dart';
 import '../models.dart';
 import 'api_key_screen.dart';
@@ -92,7 +93,9 @@ class HomeScreen extends StatelessWidget {
 
   Widget _banner(BuildContext context) {
     final items = <Widget>[];
-    if (app.subscribed) {
+    if (!kSubscriptionRequired) {
+      // Bepul rejim: obuna haqida xabar ko'rsatilmaydi.
+    } else if (app.subscribed) {
       items.add(_infoCard(
         icon: Icons.verified,
         color: Colors.green,

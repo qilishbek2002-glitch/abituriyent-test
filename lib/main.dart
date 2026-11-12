@@ -39,7 +39,7 @@ class _Gate extends StatelessWidget {
       listenable: app,
       builder: (context, _) {
         if (!app.langChosen) return const LanguageScreen(first: true);
-        if (!app.subscribed && app.trialLeft <= 0) {
+        if (kSubscriptionRequired && !app.subscribed && app.trialLeft <= 0) {
           return const PaywallScreen(locked: true);
         }
         return const HomeScreen();

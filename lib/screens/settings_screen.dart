@@ -55,7 +55,8 @@ class SettingsScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => const ApiKeyScreen()),
                   ),
                 ),
-                ListTile(
+                if (kSubscriptionRequired)
+                  ListTile(
                   leading: const Icon(Icons.workspace_premium),
                   title: Text(tr('subscription')),
                   subtitle: Text(subText),

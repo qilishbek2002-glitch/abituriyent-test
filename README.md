@@ -3,6 +3,9 @@
 Ilova: o'quvchi PDF kitob tanlaydi (yoki o'zi yuklaydi), Gemini shu kitobdan 10/30/50/100 ta test tuzadi.
 Tillar: O'zbek, Qoraqalpoq, Rus. Obuna: oyiga 15 000 so'm (aktivatsiya kodi orqali).
 
+## 0. Bepul rejim
+Hozir ilova **bepul**: `lib/config.dart` da `kSubscriptionRequired = false`. Pullik qilmoqchi bo'lsangiz `true` qiling (obuna oynasi va kodlar tizimi tayyor). Har bir fan ichida (Tayyor materiallar / Darsliklar) «PDF qo'shish» tugmasi bor: o'quvchi o'z PDF'ini shu fanga qo'shadi.
+
 ## 1. Sozlamalar (`lib/config.dart`)
 - `kPayCardNumber`, `kPayCardOwner` — to'lov kartangiz
 - `kAdminTelegram` — Telegram username (@ siz)

@@ -1,9 +1,9 @@
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
 import '../l10n.dart';
 import '../models.dart';
+import '../pick_pdf.dart';
 import '../ui.dart';
 import 'test_setup_screen.dart';
 
@@ -18,23 +18,9 @@ class _PersonalBooksScreenState extends State<PersonalBooksScreen> {
   bool _busy = false;
 
   Future<void> _pick() async {
-    const typeGroup = XTypeGroup(
-      label: 'PDF',
-      extensions: <String>['pdf'],
-      mimeTypes: <String>['application/pdf'],
-      uniformTypeIdentifiers: <String>['com.adobe.pdf'],
-    );
-    try {
-      final XFile? file =
-          await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-      if (file == null) return;
-      setState(() => _busy = true);
-      await app.addPersonalBook(file);
-    } catch (e) {
-      if (mounted) showSnack(context, errorText(e));
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
+    setState(() => _busy = true);
+    await pickAndAddPdf(context);
+    if (mounted) setState(() => _busy = false);
   }
 
   Future<void> _remove(PersonalBook b) async {
@@ -47,7 +33,7 @@ class _PersonalBooksScreenState extends State<PersonalBooksScreen> {
     return ListenableBuilder(
       listenable: app,
       builder: (context, _) {
-        final books = app.personalBooks;
+        final books = app.userBooks(null, null);
         return Scaffold(
           appBar: AppBar(title: Text(tr('my_books'))),
           floatingActionButton: FloatingActionButton.extended(

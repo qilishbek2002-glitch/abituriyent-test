@@ -34,18 +34,37 @@ class Book {
   });
 }
 
+/// Foydalanuvchi o'zi qo'shgan PDF.
+/// [subjectId] null bo'lsa, "Shaxsiy kitob" bo'limiga tegishli;
+/// aks holda shu fanning [kind] ('textbooks' yoki 'materials') bo'limiga.
 class PersonalBook {
   final String id;
   final String title;
   final String path;
-  const PersonalBook({required this.id, required this.title, required this.path});
+  final String? subjectId;
+  final String? kind;
+  const PersonalBook({
+    required this.id,
+    required this.title,
+    required this.path,
+    this.subjectId,
+    this.kind,
+  });
 
-  Map<String, dynamic> toJson() => {'id': id, 'title': title, 'path': path};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'path': path,
+        's': subjectId,
+        'k': kind,
+      };
 
   factory PersonalBook.fromJson(Map<String, dynamic> j) => PersonalBook(
         id: j['id'] as String,
         title: j['title'] as String,
         path: j['path'] as String,
+        subjectId: j['s'] as String?,
+        kind: j['k'] as String?,
       );
 }
 

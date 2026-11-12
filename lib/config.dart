@@ -8,7 +8,12 @@ const String kAppName = 'Abituriyent Test';
 const int kPriceSom = 15000;
 const int kSubscriptionDays = 30;
 
-/// Obunasiz beriladigan bepul testlar soni.
+/// Obuna talab qilinsinmi?
+/// false = ilova hozircha butunlay BEPUL (to'lov oynasi chiqmaydi).
+/// Keyinchalik pullik qilmoqchi bo'lsangiz true qiling.
+const bool kSubscriptionRequired = false;
+
+/// Obunasiz beriladigan bepul testlar soni (faqat kSubscriptionRequired = true bo'lganda ishlaydi).
 /// 0 qilsangiz, ilova to'liq pullik bo'ladi (birinchi kirishdayoq to'lov oynasi chiqadi).
 const int kFreeTests = 2;
 

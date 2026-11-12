@@ -112,7 +112,7 @@ class AppState extends ChangeNotifier {
     return d < 0 ? 0 : d;
   }
 
-  bool get canGenerate => subscribed || trialLeft > 0;
+  bool get canGenerate => !kSubscriptionRequired || subscribed || trialLeft > 0;
 
   Future<ActivateResult> activate(String raw) async {
     await _touch();
@@ -186,7 +186,19 @@ class AppState extends ChangeNotifier {
     return name.replaceAll('_', ' ').trim();
   }
 
-  Future<void> addPersonalBook(XFile file) async {
+  /// Foydalanuvchi qo'shgan kitoblar: [subjectId] null = "Shaxsiy kitob" bo'limi.
+  List<PersonalBook> userBooks(String? subjectId, String? kind) {
+    return personalBooks
+        .where((b) =>
+            b.subjectId == subjectId && (subjectId == null || b.kind == kind))
+        .toList();
+  }
+
+  int bookCount(String subjectId, String kind) =>
+      assetBookCount(subjectId, kind) + userBooks(subjectId, kind).length;
+
+  Future<void> addPersonalBook(XFile file,
+      {String? subjectId, String? kind}) async {
     final dir = await getApplicationDocumentsDirectory();
     final folder = Directory('${dir.path}/personal');
     if (!await folder.exists()) {
@@ -202,7 +214,16 @@ class AppState extends ChangeNotifier {
       title = title.substring(0, title.length - 4);
     }
     if (title.trim().isEmpty) title = 'PDF';
-    personalBooks = [PersonalBook(id: id, title: title, path: dest), ...personalBooks];
+    personalBooks = [
+      PersonalBook(
+        id: id,
+        title: title,
+        path: dest,
+        subjectId: subjectId,
+        kind: kind,
+      ),
+      ...personalBooks,
+    ];
     await _savePersonal();
     notifyListeners();
   }
